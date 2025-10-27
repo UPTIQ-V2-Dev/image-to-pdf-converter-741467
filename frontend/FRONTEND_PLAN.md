@@ -17,7 +17,32 @@ React 19 + Vite + Shadcn/UI + Tailwind v4 application for converting images to P
 
 ## Page-by-Page Implementation Plan
 
-### 1. Main Converter Page (`/`)
+### 1. Authentication Pages
+
+#### Login Page (`/login`)
+
+**File**: `src/pages/LoginPage.tsx`
+
+**Components**:
+
+- `LoginForm` - Email/password form with validation
+- `AuthLayout` - Shared layout for auth pages
+
+**Features**:
+
+- Email/password authentication
+- Form validation with React Hook Form + Zod
+- Remember me functionality
+- Redirect to main app after successful login
+- Mock data support via VITE_USE_MOCK_DATA
+
+**Integration**:
+
+- Uses existing auth service (`src/services/auth.ts`)
+- Integrates with existing token management (`src/lib/api.ts`)
+- Handles authentication state and redirects
+
+### 2. Main Converter Page (`/`)
 
 **File**: `src/pages/ConverterPage.tsx`
 

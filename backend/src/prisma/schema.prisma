@@ -15,15 +15,17 @@ datasource db {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  email           String   @unique
-  name            String?
-  password        String
-  role            Role     @default(USER)
-  isEmailVerified Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  Token           Token[]
+  id                Int              @id @default(autoincrement())
+  email             String           @unique
+  name              String?
+  password          String
+  role              Role             @default(USER)
+  isEmailVerified   Boolean          @default(false)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  Token             Token[]
+  conversionJobs    ConversionJob[]
+  conversionHistory ConversionHistory?
 }
 
 model Token {
@@ -47,4 +49,45 @@ enum TokenType {
   REFRESH
   RESET_PASSWORD
   VERIFY_EMAIL
+}
+
+model ConversionJob {
+  id           String            @id @default(cuid())
+  user         User              @relation(fields: [userId], references: [id])
+  userId       Int
+  status       String            @default("idle")
+  images       ConversionImage[]
+  settings     Json
+  createdAt    DateTime          @default(now())
+  completedAt  DateTime?
+  filename     String?
+  fileSize     Int?
+  downloadUrl  String?
+  error        String?
+}
+
+model ConversionImage {
+  id              String        @id @default(cuid())
+  conversionJob   ConversionJob @relation(fields: [conversionJobId], references: [id])
+  conversionJobId String
+  originalName    String
+  fileName        String
+  fileSize        Int
+  mimeType        String
+  width           Int?
+  height          Int?
+  storageUrl      String
+  createdAt       DateTime      @default(now())
+}
+
+model ConversionHistory {
+  id           Int           @id @default(autoincrement())
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int           @unique
+  totalJobs    Int           @default(0)
+  successJobs  Int           @default(0)
+  failedJobs   Int           @default(0)
+  lastJobDate  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }

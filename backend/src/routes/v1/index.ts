@@ -1,7 +1,9 @@
 import config from '../../config/config.ts';
 import authRoute from './auth.route.ts';
+import conversionRoute from './conversion.route.ts';
 import docsRoute from './docs.route.ts';
 import mcpRoute from './mcp.route.ts';
+import statisticsRoute from './statistics.route.ts';
 import userRoute from './user.route.ts';
 import express from 'express';
 
@@ -15,6 +17,14 @@ const defaultRoutes = [
     {
         path: '/users',
         route: userRoute
+    },
+    {
+        path: '/conversions',
+        route: conversionRoute
+    },
+    {
+        path: '/statistics',
+        route: statisticsRoute
     },
     {
         path: '/mcp',
